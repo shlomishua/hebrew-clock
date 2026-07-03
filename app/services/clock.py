@@ -300,8 +300,10 @@ def generate_clock_image(
     n            = len(time_lines)
     line_h       = 95
     total_h      = n * line_h
-    ty           = max(clock_cy + clock_r + 40,
-                       text_start_y + (text_area_h - total_h) // 2 + 10)
+    # New calculation: ignore the old clock position and center the text in the available area
+    ty = text_start_y + (text_area_h - total_h) // 2 + 10
+    # ty           = max(clock_cy + clock_r + 40,
+    #                   text_start_y + (text_area_h - total_h) // 2 + 10)
 
     for i, line in enumerate(time_lines):
         f = font_large
