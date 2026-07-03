@@ -292,9 +292,10 @@ def generate_clock_image(
     font_small  = get_font(34,  fn)
 
     clock_cx, clock_cy, clock_r = W // 2, PAD2 + 75, 68
-    _draw_analog_clock(draw, clock_cx, clock_cy, clock_r, h24, m, fn)
+    # _draw_analog_clock(draw, clock_cx, clock_cy, clock_r, h24, m, fn)
 
-    text_start_y = clock_cy + clock_r + 15
+    text_start_y = PAD2 + 15
+    # text_start_y = clock_cy + clock_r + 15
     text_area_h  = H - 110 - text_start_y
     n            = len(time_lines)
     line_h       = 95
