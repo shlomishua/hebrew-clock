@@ -105,13 +105,31 @@ def _get_time_period(h: int) -> str:
 
 
 def _get_time_lines(h24: int, m: int) -> list[str]:
-    h12 = h24 % 12 or 12
     period = _get_time_period(h24)
-    mp = MINUTE_PREFIX[m]
+    
+    # Special exact case for xx:45 ("Quarter to [Next Hour]")
+    if m == 45:
+        next_h12 = (h24 + 1) % 12 or 12
+        next_hp = HOURS[next_h12 - 1]
+        return [f"רֶבַע לְ{next_hp}", period]
+
+    # Standard logic for all other minutes
+    h12 = h24 % 12 or 12
     hp = HOURS[h12 - 1]
+    mp = MINUTE_PREFIX[m]
+    
     if len(hp + mp) > 25:
         return [hp, mp, period]
     return [hp + " " + mp, period]
+
+# def _get_time_lines(h24: int, m: int) -> list[str]:
+#    h12 = h24 % 12 or 12
+#    period = _get_time_period(h24)
+#    mp = MINUTE_PREFIX[m]
+#    hp = HOURS[h12 - 1]
+#    if len(hp + mp) > 25:
+#        return [hp, mp, period]
+#    return [hp + " " + mp, period]
 
 # ── Drawing ───────────────────────────────────────────
 
@@ -266,15 +284,15 @@ def generate_clock_image(
 ) -> bytes:
     fn = font_name if font_name in VALID_FONTS else DEFAULT_FONT
 
-    if sleep_time:
-        return _generate_night_image(fn)
+    # if sleep_time:
+    #     return _generate_night_image(fn)
 
     now  = get_israel_time()
     h24, m = now.hour, now.minute
 
-    if h24 == 6 or (h24 == 7 and m < 30):
-        return _generate_quiet_image(fn)
-
+    # if h24 == 6 or (h24 == 7 and m < 30):
+    #     return _generate_quiet_image(fn)
+    
     W, H = 800, 480
     img  = Image.new("L", (W, H), color=255)
     draw = ImageDraw.Draw(img)
