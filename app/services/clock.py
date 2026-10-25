@@ -65,7 +65,7 @@ DAYS_HE = [
 
 def get_israel_time() -> datetime.datetime:
     utc = datetime.datetime.utcnow()
-    local = utc + datetime.timedelta(hours=3 if 3 <= utc.month <= 10 else 2)
+    local = utc + datetime.timedelta(hours=3 if 3 <= utc.month <= 9 else 2)
     return local + datetime.timedelta(seconds=settings.display_lag)
 
 
